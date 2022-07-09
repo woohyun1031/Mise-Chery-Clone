@@ -1,10 +1,15 @@
+import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import Grid from '../elements/Grid';
 
-const Card = () => {
+type CardProps = {
+	_onClick(value: MouseEvent<HTMLDivElement>): any;
+};
+
+const Card = (props: CardProps) => {
 	return (
 		<>
-			<CardBox>item</CardBox>
+			<CardBox onClick={props._onClick}>item</CardBox>
 		</>
 	);
 };

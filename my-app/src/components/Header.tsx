@@ -6,7 +6,7 @@ const Header = () => {
 		<>
 			<HeaderBox>
 				<Grid width='100%' height='46px'>
-					<Grid is_flex>
+					<Grid is_flex bg='gray' padding='0 16px'>
 						<Icon>backIcon</Icon>
 						<div>기말고사 총 범위</div>
 						<Icon>점점점</Icon>

@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {    
     background-color: #ffff;    
-    padding-top: 190px;
+    padding-top: 180px;
   }
   li {
     list-style: none;
