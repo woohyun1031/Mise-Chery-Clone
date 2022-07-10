@@ -6,6 +6,7 @@ import Header from './components/Header';
 import SubHeader from './components/SubHeader';
 import CardList from './components/CardList';
 import CardHeader from './components/CardHeader';
+import Modal from './components/Modal';
 
 const App = () => {
 	return (
@@ -17,6 +18,7 @@ const App = () => {
 				<CardHeader />
 			</HeaderContainer>
 			<CardList />
+			{/* <Modal /> */}
 		</>
 	);
 };

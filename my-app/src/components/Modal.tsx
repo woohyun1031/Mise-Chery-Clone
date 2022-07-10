@@ -1,26 +1,43 @@
-import { MouseEvent } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { Grid } from '../elements/index';
 
-type ModalProps = {
-	_onClick(value: MouseEvent<HTMLDivElement>): any;
-};
+const Modal = () => {
+	const [isOpen, setIsOpen] = useState(false);
 
-const Modal = (props: ModalProps) => {
 	return (
 		<>
-			<CardBox onClick={props._onClick}>item</CardBox>
+			<BackGround />
+			<ModalBox>
+				<ModalHeader>정렬</ModalHeader>
+			</ModalBox>
 		</>
 	);
 };
 
 export default Modal;
-
-const CardBox = styled.div`
+const ModalBox = styled.div`
+	position: fixed;
 	width: 100%;
-	height: 80px;
+	bottom: 0;
+	background-color: #ffff;
+	border-radius: 10px 10px 0 0;
+	z-index: 101;
+`;
+const ModalHeader = styled.div`
+	width: 100%;
+	height: 56px;
+	padding: 20px;
+	text-align: center;
+`;
 
-	margin-bottom: 12px;
-
-	border: 0.5px solid #e6ebff;
-	border-radius: 6px;
+const BackGround = styled.div`
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(2px);
+	z-index: 100;
 `;
