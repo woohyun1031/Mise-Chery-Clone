@@ -4,7 +4,7 @@ import Grid from '../elements/Grid';
 const CardHeader = () => {
 	return (
 		<>
-			<Grid width='100%' height='57px' padding='0 16px' is_flex>
+			<Grid width='100%' height='57px' padding='0 16px' is_flex border>
 				<Grid width='35%'>
 					<Text>학습중</Text>
 					<Text>암기완료</Text>
