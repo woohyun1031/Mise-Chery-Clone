@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Grid from '../elements/Grid';
+import { Grid, Icon } from '../elements/index';
 
 const Header = () => {
 	return (
@@ -16,13 +16,3 @@ const Header = () => {
 };
 
 export default Header;
-
-const Icon = styled.div<{ src: string }>`
-	width: 20px;
-	height: 16px;
-	color: black;
-	background-image: url(${({ src }) => (src ? src : 'none')});
-	background-size: contain;
-	background-position: center center;
-	background-repeat: no-repeat;
-`;
