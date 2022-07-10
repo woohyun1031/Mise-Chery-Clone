@@ -1,7 +1,16 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
+import { AppDispatch } from '../store/configStore';
+import { getList } from '../store/modules/list';
 
 const CardHeader = () => {
+	const dispatch = useDispatch<AppDispatch>();
+
+	const onclickIcon = () => {
+		dispatch(getList());
+	};
+
 	return (
 		<>
 			<Grid width='100%' height='57px' padding='0 16px' is_flex border>
@@ -12,7 +21,7 @@ const CardHeader = () => {
 					<Text size='14px'>암기완료</Text>
 				</SectionLeft>
 				<SectionRight>
-					<Icon src='images/sort_icon.svg' />
+					<Icon src='images/sort_icon.svg' callback={onclickIcon} />
 					<Icon src='images/mix_icon.svg' margin='0 0 0 17px' />
 				</SectionRight>
 			</Grid>
