@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import list from './modules/list';
+import modal from './modules/modal';
 
 const store = configureStore({
-	reducer: { list },
+	reducer: { list, modal },
 });
 
 export default store;

@@ -4,7 +4,7 @@ import Card from './Card';
 
 const CardList = () => {
 	const onclick = (e: MouseEvent<HTMLDivElement>) => {
-		console.log(e);
+		console.log(e.target);
 	};
 
 	return (

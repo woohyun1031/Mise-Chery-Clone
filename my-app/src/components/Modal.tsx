@@ -1,13 +1,19 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Grid } from '../elements/index';
+import { RootState } from '../store/configStore';
+import { closeModal } from '../store/modules/modal';
 
 const Modal = () => {
-	const [isOpen, setIsOpen] = useState(false);
-
+	const dispatch = useDispatch();
+	const Modalclose = () => {
+		dispatch(closeModal());
+	};
 	return (
 		<>
-			<BackGround />
+			<BackGround onClick={Modalclose} />
 			<ModalBox>
 				<ModalHeader>정렬</ModalHeader>
 			</ModalBox>

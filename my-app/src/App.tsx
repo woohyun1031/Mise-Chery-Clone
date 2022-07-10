@@ -7,8 +7,12 @@ import SubHeader from './components/SubHeader';
 import CardList from './components/CardList';
 import CardHeader from './components/CardHeader';
 import Modal from './components/Modal';
+import { RootState } from './store/configStore';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
+
 	return (
 		<>
 			<GlobalStyle />
@@ -18,7 +22,7 @@ const App = () => {
 				<CardHeader />
 			</HeaderContainer>
 			<CardList />
-			{/* <Modal /> */}
+			{_isOpen && <Modal />}
 		</>
 	);
 };

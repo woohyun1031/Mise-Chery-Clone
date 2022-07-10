@@ -9,7 +9,7 @@ type CardProps = {
 const Card = (props: CardProps) => {
 	return (
 		<>
-			<CardBox onClick={props._onClick}>
+			<CardBox>
 				<SectionUpper>
 					<SectionWrap>
 						<Grid is_flex width='45px'>
@@ -26,7 +26,7 @@ const Card = (props: CardProps) => {
 				</SectionUpper>
 				<Grid padding='12px' is_flex>
 					<WordLeft>좌측그리드</WordLeft>
-					<WordRight>우측그리드</WordRight>
+					<WordRight onClick={props._onClick}>우측그리드</WordRight>
 				</Grid>
 			</CardBox>
 		</>
