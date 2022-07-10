@@ -8,6 +8,7 @@ type GridProps = {
 	bg?: string;
 	is_flex?: boolean;
 	is_shadow?: boolean;
+	is_position?: string;
 	children?: any;
 	zIndex?: string;
 	border?: boolean;

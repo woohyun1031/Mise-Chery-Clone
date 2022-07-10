@@ -14,6 +14,9 @@ const CardList = () => {
 				<Card _onClick={onclick} />
 				<Card _onClick={onclick} />
 				<Card _onClick={onclick} />
+				<Card _onClick={onclick} />
+				<Card _onClick={onclick} />
+				<Card _onClick={onclick} />
 			</CardListWrap>
 		</>
 	);
@@ -27,5 +30,4 @@ const CardListWrap = styled.div`
 	overflow-y: scroll;
 	z-index: 999;
 	border: 0.5px solid gray;
-	background-color: gray;
 `;

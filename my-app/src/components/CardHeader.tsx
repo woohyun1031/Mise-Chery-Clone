@@ -1,18 +1,20 @@
 import styled from 'styled-components';
-import Grid from '../elements/Grid';
+import { Grid, Text, Icon } from '../elements/index';
 
 const CardHeader = () => {
 	return (
 		<>
 			<Grid width='100%' height='57px' padding='0 16px' is_flex border>
-				<Grid width='35%'>
-					<Text>학습중</Text>
-					<Text>암기완료</Text>
-				</Grid>
-				<Grid width='35%'>
-					<Text>set Icon</Text>
-					<Text>Ran Icon</Text>
-				</Grid>
+				<SectionLeft>
+					<Text size='14px' margin='0 13px 0 0'>
+						학습중
+					</Text>
+					<Text size='14px'>암기완료</Text>
+				</SectionLeft>
+				<SectionRight>
+					<Icon src='images/sort_icon.svg' />
+					<Icon src='images/mix_icon.svg' margin='0 0 0 17px' />
+				</SectionRight>
 			</Grid>
 		</>
 	);
@@ -20,9 +22,19 @@ const CardHeader = () => {
 
 export default CardHeader;
 
-const Text = styled.div`
-	display: inline-block;
-	font-size: 13px;
-	margin: 0 5px;
-	text-align: center;
+const SectionLeft = styled.div`
+	width: 120px;
+	height: 26px;
+
+	line-height: 26px;
+
+	display: flex;
+	justify-content: flex-start;
+`;
+
+const SectionRight = styled.div`
+	width: 70px;
+	height: 26px;
+	display: flex;
+	justify-content: flex-end;
 `;
