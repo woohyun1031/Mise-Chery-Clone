@@ -45,8 +45,8 @@ const App = () => {
 				<CardHeader />
 			</HeaderContainer>
 			<CardList />
-			{_isOpen && <Modal />}
 			<FloatButton _onClick={showAllCard} _isOpen={isAllShow} />
+			{_isOpen && <Modal />}
 		</>
 	);
 };

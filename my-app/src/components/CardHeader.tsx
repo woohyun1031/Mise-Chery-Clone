@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
 import { AppDispatch } from '../store/configStore';
 import { getList } from '../store/modules/list';
+import { openModal } from '../store/modules/modal';
 
 const CardHeader = () => {
 	const dispatch = useDispatch<AppDispatch>();
 
-	const onclickIcon = () => {
-		dispatch(getList());
+	const modalOpen = () => {
+		dispatch(openModal('sortModal'));
 	};
 
 	return (
@@ -21,7 +22,7 @@ const CardHeader = () => {
 					<Text size='14px'>암기완료</Text>
 				</SectionLeft>
 				<SectionRight>
-					<Icon src='images/sort_icon.svg' callback={onclickIcon} />
+					<Icon src='images/sort_icon.svg' callback={modalOpen} />
 					<Icon src='images/mix_icon.svg' margin='0 0 0 17px' />
 				</SectionRight>
 			</Grid>

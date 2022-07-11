@@ -7,7 +7,7 @@ const Header = () => {
 	const dispatch = useDispatch();
 
 	const modalOpen = () => {
-		dispatch(openModal());
+		dispatch(openModal('converModal'));
 	};
 	return (
 		<>
