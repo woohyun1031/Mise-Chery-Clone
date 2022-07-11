@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CardType } from '../../components/CardList';
 
 //initialState
 
@@ -47,8 +48,15 @@ export const list = createSlice({
 		convertWord: (state) => {
 			state.isConvert = !state.isConvert;
 		},
+		addComplte: (
+			state,
+			action: PayloadAction<{ completeCard: CardType; newList: CardType[] }>
+		) => {
+			state.list = action.payload.newList;
+			state.completeList.push(action.payload.completeCard);
+		},
 	},
 });
 
-export const { setList, convertWord } = list.actions;
+export const { setList, convertWord, addComplte } = list.actions;
 export default list.reducer;

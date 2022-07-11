@@ -37,4 +37,6 @@ const FloatButtonBox = styled.button`
 	right: 32px;
 
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+
+	z-index: 99;
 `;
