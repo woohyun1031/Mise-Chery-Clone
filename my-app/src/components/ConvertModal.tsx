@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Toggle } from '../elements/index';
+import { RootState } from '../store/configStore';
+import { convertWord } from '../store/modules/list';
 
 const ConvertModal = () => {
-	const [isConvert, setIsConvert] = useState(false);
+	const dispatch = useDispatch();
+	const isConvert = useSelector((state: RootState) => state.list.isConvert);
 
 	const convertClick = () => {
-		setIsConvert((prev) => !prev);
+		dispatch(convertWord());
 	};
 
 	return (

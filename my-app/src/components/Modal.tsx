@@ -12,7 +12,7 @@ const Modal = () => {
 	let title;
 	let contents;
 	switch (isType) {
-		case 'converModal':
+		case 'convertModal':
 			title = '더보기';
 			contents = <ConvertModal />;
 			break;

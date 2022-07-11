@@ -5,10 +5,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 type initialStateType = {
 	list: any;
+	isConvert: boolean;
 };
 
 const initialState: initialStateType = {
 	list: [],
+	isConvert: false,
 };
 
 export const getList = createAsyncThunk('list/getList', async (_, thunkAPI) => {
@@ -40,8 +42,11 @@ export const list = createSlice({
 		setList: (state, action) => {
 			state.list = action.payload;
 		},
+		convertWord: (state) => {
+			state.isConvert = !state.isConvert;
+		},
 	},
 });
 
-export const { setList } = list.actions;
+export const { setList, convertWord } = list.actions;
 export default list.reducer;

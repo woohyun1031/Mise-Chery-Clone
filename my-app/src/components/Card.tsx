@@ -9,10 +9,11 @@ import { CardType } from './CardList';
 
 type CardProps = CardType & {
 	_onClick?(value: MouseEvent<HTMLDivElement>): any;
+	isConvert: boolean;
 };
 
 const Card = (props: CardProps) => {
-	const { word, trans, pos, x_count, o_count, isOpen } = props;
+	const { word, trans, pos, x_count, o_count, isOpen, isConvert } = props;
 
 	const dispatch = useDispatch();
 	const isList = useSelector((state: RootState) => state.list.list);
@@ -42,10 +43,10 @@ const Card = (props: CardProps) => {
 						</Grid>
 					</SectionWrap>
 				</SectionUpper>
-				<Grid padding='12px' is_flex>
-					<WordLeft>{word}</WordLeft>
+				<Grid padding='20px' is_flex>
+					<WordLeft>{isConvert ? trans : word}</WordLeft>
 					<WordRight onClick={openClick}>
-						{isOpen && <TransSection>{trans}</TransSection>}
+						{isOpen && <TransSection>{isConvert ? word : trans}</TransSection>}
 					</WordRight>
 				</Grid>
 			</CardBox>
