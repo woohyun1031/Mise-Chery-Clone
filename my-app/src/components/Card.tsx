@@ -1,6 +1,10 @@
 import { MouseEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
+import { RootState } from '../store/configStore';
+import { setList } from '../store/modules/list';
 import { CardType } from './CardList';
 
 type CardProps = CardType & {
@@ -8,11 +12,17 @@ type CardProps = CardType & {
 };
 
 const Card = (props: CardProps) => {
-	const { word, trans, pos, x_count, o_count } = props;
-	const [isClose, setIsClose] = useState(false);
+	const { word, trans, pos, x_count, o_count, isOpen } = props;
+
+	const dispatch = useDispatch();
+	const isList = useSelector((state: RootState) => state.list.list);
 
 	const openClick = () => {
-		setIsClose(!isClose);
+		const newList = isList.map((l: CardType) => {
+			if (l.word == word) return { ...l, isOpen: !isOpen };
+			return l;
+		});
+		dispatch(setList(newList));
 	};
 
 	return (
@@ -35,7 +45,7 @@ const Card = (props: CardProps) => {
 				<Grid padding='12px' is_flex>
 					<WordLeft>{word}</WordLeft>
 					<WordRight onClick={openClick}>
-						{isClose && <TransSection>{trans}</TransSection>}
+						{isOpen && <TransSection>{trans}</TransSection>}
 					</WordRight>
 				</Grid>
 			</CardBox>
