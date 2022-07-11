@@ -1,12 +1,20 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
+import { CardType } from './CardList';
 
-type CardProps = {
-	_onClick(value: MouseEvent<HTMLDivElement>): any;
+type CardProps = CardType & {
+	_onClick?(value: MouseEvent<HTMLDivElement>): any;
 };
 
 const Card = (props: CardProps) => {
+	const { word, trans, pos, x_count, o_count } = props;
+	const [isClose, setIsClose] = useState(false);
+
+	const openClick = () => {
+		setIsClose(!isClose);
+	};
+
 	return (
 		<>
 			<CardBox>
@@ -15,18 +23,20 @@ const Card = (props: CardProps) => {
 						<Grid is_flex width='45px'>
 							<Icon src='images/X_count_icon.svg' size='10px' />
 							<Text size='10px' color='#F25555'>
-								1
+								{x_count}
 							</Text>
 							<Icon src='images/O_count_icon.svg' size='11px' />
 							<Text size='10px' color='#177AFF'>
-								7
+								{o_count}
 							</Text>
 						</Grid>
 					</SectionWrap>
 				</SectionUpper>
 				<Grid padding='12px' is_flex>
-					<WordLeft>좌측그리드</WordLeft>
-					<WordRight onClick={props._onClick}>우측그리드</WordRight>
+					<WordLeft>{word}</WordLeft>
+					<WordRight onClick={openClick}>
+						{isClose && <TransSection>{trans}</TransSection>}
+					</WordRight>
 				</Grid>
 			</CardBox>
 		</>
@@ -69,7 +79,13 @@ const WordLeft = styled.div`
 const WordRight = styled.div`
 	width: 100%;
 	height: 100%;
-	//text-align: center;
+`;
+
+const TransSection = styled.div`
+	width: 100%;
+	height: 100%;
+	padding: 0 10px;
+	font-size: 13px;
 	display: flex;
 	justify-content: center;
 	align-items: center;

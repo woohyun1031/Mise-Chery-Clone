@@ -1,8 +1,22 @@
+import { type } from '@testing-library/user-event/dist/type';
 import { MouseEvent } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { RootState } from '../store/configStore';
 import Card from './Card';
 
+export type CardType = {
+	word: string;
+	trans: string;
+	pos: string;
+	x_count: number;
+	o_count: number;
+	isOpen: boolean;
+};
+
 const CardList = () => {
+	const isList = useSelector((state: RootState) => state.list.list);
+
 	const onclick = (e: MouseEvent<HTMLDivElement>) => {
 		console.log(e.target);
 	};
@@ -10,13 +24,10 @@ const CardList = () => {
 	return (
 		<>
 			<CardListWrap>
-				<Card _onClick={onclick} />
-				<Card _onClick={onclick} />
-				<Card _onClick={onclick} />
-				<Card _onClick={onclick} />
-				<Card _onClick={onclick} />
-				<Card _onClick={onclick} />
-				<Card _onClick={onclick} />
+				{isList &&
+					isList.map((card: CardType) => {
+						return <Card key={card.word} {...card} _onClick={onclick} />;
+					})}
 			</CardListWrap>
 		</>
 	);
