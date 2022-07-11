@@ -8,7 +8,6 @@ import { addComplte, setList } from '../store/modules/list';
 import { CardType } from './CardList';
 
 type CardProps = CardType & {
-	_onClick?(value: MouseEvent<HTMLDivElement>): any;
 	isConvert: boolean;
 };
 
@@ -16,10 +15,10 @@ const Card = (props: CardProps) => {
 	const { word, trans, pos, x_count, o_count, isOpen, isConvert } = props;
 
 	const dispatch = useDispatch();
-	const isList = useSelector((state: RootState) => state.list.list);
-
+	const isList = useSelector((state: RootState) => state.list);
+	const isNewList = isList.isStudy ? isList.list : isList.completeList;
 	const openClick = () => {
-		const newList = isList.map((l: CardType) => {
+		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, isOpen: !isOpen };
 			return l;
 		});
@@ -27,7 +26,7 @@ const Card = (props: CardProps) => {
 	};
 
 	const addXCount = () => {
-		const newList = isList.map((l: CardType) => {
+		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, x_count: x_count + 1 };
 			return l;
 		});
@@ -35,7 +34,7 @@ const Card = (props: CardProps) => {
 	};
 
 	const addOCount = () => {
-		const newList = isList.map((l: CardType) => {
+		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, o_count: o_count + 1 };
 			return l;
 		});
@@ -44,7 +43,7 @@ const Card = (props: CardProps) => {
 
 	const addCompleteList = () => {
 		let completeCard;
-		const newList = isList.filter((l: CardType) => {
+		const newList = isNewList.filter((l: CardType) => {
 			if (l.word !== word) {
 				return l;
 			} else {

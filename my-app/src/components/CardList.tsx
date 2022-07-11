@@ -15,24 +15,16 @@ export type CardType = {
 };
 
 const CardList = () => {
-	const isList = useSelector((state: RootState) => state.list.list);
-	const _isConvert = useSelector((state: RootState) => state.list.isConvert);
-	const onclick = (e: MouseEvent<HTMLDivElement>) => {
-		console.log(e.target);
-	};
+	const isList = useSelector((state: RootState) => state.list);
+	const isNewList = isList.isStudy ? isList.list : isList.completeList;
 
 	return (
 		<>
 			<CardListWrap>
-				{isList &&
-					isList.map((card: CardType) => {
+				{isNewList &&
+					isNewList.map((card: CardType) => {
 						return (
-							<Card
-								key={card.word}
-								{...card}
-								_onClick={onclick}
-								isConvert={_isConvert}
-							/>
+							<Card key={card.word} {...card} isConvert={isList.isConvert} />
 						);
 					})}
 			</CardListWrap>

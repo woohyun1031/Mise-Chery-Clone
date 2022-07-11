@@ -6,16 +6,18 @@ type SubHeaderProps = {
 	isComplete: [];
 };
 const SubHeader = (props: SubHeaderProps) => {
+	const { isList, isComplete } = props;
+	const totalList = isList.length + isComplete.length;
 	return (
 		<>
 			<Grid width='100%' height='78px' padding='0 16px'>
 				<Grid is_flex>
 					<SectionLeft>
 						<Text color='#5c5f66' size='12px'>
-							{props.isComplete.length}/{props.isList.length}단어
+							{isComplete.length}/{totalList}단어
 						</Text>
 						<Text color='#B5B7BA' size='12px'>
-							{(props.isComplete.length / props.isList.length) * 100}%
+							{(isComplete.length / totalList) * 100}%
 						</Text>
 					</SectionLeft>
 					<SectionRight>
@@ -34,7 +36,7 @@ export default SubHeader;
 const SectionLeft = styled.div`
 	width: 30%;
 	max-width: 164px;
-	min-width: 110px;
+	min-width: 125px;
 	height: 34px;
 
 	line-height: 34px;
@@ -50,7 +52,7 @@ const SectionLeft = styled.div`
 const SectionRight = styled.div`
 	width: 30%;
 	max-width: 164px;
-	min-width: 110px;
+	min-width: 125px;
 	height: 34px;
 
 	line-height: 34px;

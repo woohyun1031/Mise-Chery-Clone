@@ -9,10 +9,11 @@ import { CardType } from './CardList';
 
 const SortModal = () => {
 	const dispatch = useDispatch();
-	const isList = useSelector((state: RootState) => state.list.list);
+	const isList = useSelector((state: RootState) => state.list);
+	const isNewList = isList.isStudy ? isList.list : isList.completeList;
 
 	const selectSortMode = (isType: string) => {
-		const arrayForSort = [...isList];
+		const arrayForSort = [...isNewList];
 		let result;
 		switch (isType) {
 			case 'sortAlphabet':

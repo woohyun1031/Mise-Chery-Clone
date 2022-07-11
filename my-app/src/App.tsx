@@ -1,28 +1,21 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-
 import styled from 'styled-components';
-
 import GlobalStyle from './styles/GlobalStyle';
-
 import Header from './components/Header';
 import SubHeader from './components/SubHeader';
 import CardList, { CardType } from './components/CardList';
 import CardHeader from './components/CardHeader';
 import Modal from './components/Modal';
 import FloatButton from './components/FloatButton';
-
 import { AppDispatch, RootState } from './store/configStore';
 import { getList, setList } from './store/modules/list';
 
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
-	const _isList = useSelector((state: RootState) => state.list.list);
-	const _isComplete = useSelector(
-		(state: RootState) => state.list.completeList
-	);
+	const _isList = useSelector((state: RootState) => state.list);
 	const [isAllShow, setIsAllShow] = useState(true);
 
 	useEffect(() => {
@@ -31,7 +24,7 @@ const App = () => {
 
 	const showAllCard = () => {
 		const isOpenCheck = isAllShow;
-		const newList = _isList.map((l: CardType) => {
+		const newList = _isList.list.map((l: CardType) => {
 			return { ...l, isOpen: isAllShow };
 		});
 
@@ -44,8 +37,8 @@ const App = () => {
 			<GlobalStyle />
 			<HeaderContainer>
 				<Header />
-				<SubHeader isList={_isList} isComplete={_isComplete} />
-				<CardHeader isList={_isList} />
+				<SubHeader isList={_isList.list} isComplete={_isList.completeList} />
+				<CardHeader isList={_isList.list} />
 			</HeaderContainer>
 			<CardList />
 			<FloatButton _onClick={showAllCard} _isOpen={isAllShow} />

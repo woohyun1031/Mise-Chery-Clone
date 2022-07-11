@@ -1,8 +1,9 @@
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
-import { AppDispatch } from '../store/configStore';
-import { getList, setList } from '../store/modules/list';
+import { AppDispatch, RootState } from '../store/configStore';
+import { changeStudy, getList, setList } from '../store/modules/list';
 import { openModal } from '../store/modules/modal';
 
 type CardHeaderProps = {
@@ -11,7 +12,7 @@ type CardHeaderProps = {
 
 const CardHeader = (props: CardHeaderProps) => {
 	const dispatch = useDispatch<AppDispatch>();
-
+	const _isStudy = useSelector((state: RootState) => state.list.isStudy);
 	const modalOpen = () => {
 		dispatch(openModal('sortModal'));
 	};
@@ -20,15 +21,29 @@ const CardHeader = (props: CardHeaderProps) => {
 		const result = newList.sort(() => Math.random() - 0.5);
 		dispatch(setList(result));
 	};
+	const changeStudyList = () => {
+		dispatch(changeStudy());
+	};
 
 	return (
 		<>
 			<Grid width='100%' height='57px' padding='0 16px' is_flex border>
 				<SectionLeft>
-					<Text size='14px' margin='0 13px 0 0'>
+					<Text
+						size='14px'
+						callback={changeStudyList}
+						color={_isStudy ? '#292C34' : '#DBDCDC'}
+					>
 						학습중
 					</Text>
-					<Text size='14px'>암기완료</Text>
+					<Text
+						size='14px'
+						margin='0 13px'
+						callback={changeStudyList}
+						color={_isStudy ? '#DBDCDC' : '#292C34'}
+					>
+						암기완료
+					</Text>
 				</SectionLeft>
 				<SectionRight>
 					<Icon src='images/sort_icon.svg' callback={modalOpen} />

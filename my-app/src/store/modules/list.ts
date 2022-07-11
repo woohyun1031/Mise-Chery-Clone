@@ -8,12 +8,14 @@ type initialStateType = {
 	list: any;
 	completeList: any;
 	isConvert: boolean;
+	isStudy: boolean;
 };
 
 const initialState: initialStateType = {
 	list: [],
 	completeList: [],
 	isConvert: false,
+	isStudy: true,
 };
 
 export const getList = createAsyncThunk('list/getList', async (_, thunkAPI) => {
@@ -55,8 +57,11 @@ export const list = createSlice({
 			state.list = action.payload.newList;
 			state.completeList.push(action.payload.completeCard);
 		},
+		changeStudy: (state) => {
+			state.isStudy = !state.isStudy;
+		},
 	},
 });
 
-export const { setList, convertWord, addComplte } = list.actions;
+export const { setList, convertWord, addComplte, changeStudy } = list.actions;
 export default list.reducer;
