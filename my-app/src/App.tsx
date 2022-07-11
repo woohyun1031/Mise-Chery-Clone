@@ -10,26 +10,30 @@ import CardHeader from './components/CardHeader';
 import Modal from './components/Modal';
 import FloatButton from './components/FloatButton';
 import { AppDispatch, RootState } from './store/configStore';
-import { getList, setList } from './store/modules/list';
+import { changeStudy, getList, setList } from './store/modules/list';
 
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
 	const _isList = useSelector((state: RootState) => state.list);
-	const [isAllShow, setIsAllShow] = useState(true);
+	const _isNewList = _isList.isStudy ? _isList.list : _isList.completeList;
+	const [isAllShow, setIsAllShow] = useState(false);
 
 	useEffect(() => {
 		dispatch(getList());
 	}, []);
 
 	const showAllCard = () => {
-		const isOpenCheck = isAllShow;
-		const newList = _isList.list.map((l: CardType) => {
-			return { ...l, isOpen: isAllShow };
+		const newList = _isNewList.map((l: CardType) => {
+			return { ...l, isOpen: !isAllShow };
 		});
-
-		setIsAllShow(!isOpenCheck);
+		setIsAllShow(!isAllShow);
 		dispatch(setList(newList));
+	};
+
+	const changeStudyList = () => {
+		dispatch(changeStudy());
+		setIsAllShow(false);
 	};
 
 	return (
@@ -38,10 +42,10 @@ const App = () => {
 			<HeaderContainer>
 				<Header />
 				<SubHeader isList={_isList.list} isComplete={_isList.completeList} />
-				<CardHeader isList={_isList.list} />
+				<CardHeader isList={_isNewList} _onClick={changeStudyList} />
 			</HeaderContainer>
 			<CardList />
-			<FloatButton _onClick={showAllCard} _isOpen={isAllShow} />
+			<FloatButton _onClick={showAllCard} _isOpen={!isAllShow} />
 			{_isOpen && <Modal />}
 		</>
 	);

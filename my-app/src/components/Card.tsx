@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
 import { RootState } from '../store/configStore';
-import { addComplte, setList } from '../store/modules/list';
+import { addComplte, addStudy, setList } from '../store/modules/list';
 import { CardType } from './CardList';
 
 type CardProps = CardType & {
@@ -15,8 +15,10 @@ const Card = (props: CardProps) => {
 	const { word, trans, pos, x_count, o_count, isOpen, isConvert } = props;
 
 	const dispatch = useDispatch();
+
 	const isList = useSelector((state: RootState) => state.list);
 	const isNewList = isList.isStudy ? isList.list : isList.completeList;
+
 	const openClick = () => {
 		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, isOpen: !isOpen };
@@ -26,7 +28,7 @@ const Card = (props: CardProps) => {
 	};
 
 	const addXCount = () => {
-		const newList = isNewList.map((l: CardType) => {
+		const newList = isList.list.map((l: CardType) => {
 			if (l.word == word) return { ...l, x_count: x_count + 1 };
 			return l;
 		});
@@ -34,7 +36,7 @@ const Card = (props: CardProps) => {
 	};
 
 	const addOCount = () => {
-		const newList = isNewList.map((l: CardType) => {
+		const newList = isList.list.map((l: CardType) => {
 			if (l.word == word) return { ...l, o_count: o_count + 1 };
 			return l;
 		});
@@ -43,7 +45,7 @@ const Card = (props: CardProps) => {
 
 	const addCompleteList = () => {
 		let completeCard;
-		const newList = isNewList.filter((l: CardType) => {
+		const newList = isList.list.filter((l: CardType) => {
 			if (l.word !== word) {
 				return l;
 			} else {
@@ -52,6 +54,19 @@ const Card = (props: CardProps) => {
 			}
 		});
 		if (completeCard) dispatch(addComplte({ completeCard, newList }));
+	};
+
+	const returnStudyList = () => {
+		let studyCard;
+		const newList = isList.completeList.filter((l: CardType) => {
+			if (l.word !== word) {
+				return l;
+			} else {
+				studyCard = l;
+				return;
+			}
+		});
+		if (studyCard) dispatch(addStudy({ studyCard, newList }));
 	};
 
 	return (
@@ -72,6 +87,7 @@ const Card = (props: CardProps) => {
 							</Grid>
 						</SectionWrap>
 					</SectionTop>
+
 					<Grid is_flex zIndex=''>
 						<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
 						{isOpen && <Line />}
@@ -84,18 +100,27 @@ const Card = (props: CardProps) => {
 						</WordRight>
 					</Grid>
 				</CardBox>
+
 				<HideComponent>
-					<Grid is_flex>
-						<Item bg={'#F47777'} onClick={addXCount}>
-							X
+					{isList.isStudy ? (
+						<Grid is_flex>
+							<Item bg={'#F47777'} onClick={addXCount}>
+								X
+							</Item>
+							<Item bg={'#4694FF'} onClick={addOCount}>
+								O
+							</Item>
+							<Item bg={'#22E073'} onClick={addCompleteList}>
+								암기완료
+							</Item>
+						</Grid>
+					) : (
+						<Item bg={'#E6EBFF'}>
+							<Text color='#5471FF' callback={returnStudyList}>
+								재학습
+							</Text>
 						</Item>
-						<Item bg={'#4694FF'} onClick={addOCount}>
-							O
-						</Item>
-						<Item bg={'#22E073'} onClick={addCompleteList}>
-							암기완료
-						</Item>
-					</Grid>
+					)}
 				</HideComponent>
 			</CardWrap>
 		</>
@@ -168,7 +193,6 @@ const TransSection = styled.div<{ isConvert: boolean }>`
 
 const HideComponent = styled.div`
 	position: absolute;
-	width: 261px;
 	height: 100%;
 	border-radius: 0 6px 6px 0;
 	top: 0;
@@ -178,7 +202,7 @@ const HideComponent = styled.div`
 
 const Item = styled.div<{ bg: string }>`
 	display: flex;
-	width: 100%;
+	width: 87px;
 	height: 100%;
 	justify-content: center;
 	align-items: center;

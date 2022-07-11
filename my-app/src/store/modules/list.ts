@@ -45,7 +45,9 @@ export const list = createSlice({
 	initialState,
 	reducers: {
 		setList: (state, action) => {
-			state.list = action.payload;
+			state.isStudy
+				? (state.list = action.payload)
+				: (state.completeList = action.payload);
 		},
 		convertWord: (state) => {
 			state.isConvert = !state.isConvert;
@@ -57,11 +59,19 @@ export const list = createSlice({
 			state.list = action.payload.newList;
 			state.completeList.push(action.payload.completeCard);
 		},
+		addStudy: (
+			state,
+			action: PayloadAction<{ studyCard: CardType; newList: CardType[] }>
+		) => {
+			state.completeList = action.payload.newList;
+			state.list.push(action.payload.studyCard);
+		},
 		changeStudy: (state) => {
 			state.isStudy = !state.isStudy;
 		},
 	},
 });
 
-export const { setList, convertWord, addComplte, changeStudy } = list.actions;
+export const { setList, convertWord, addComplte, addStudy, changeStudy } =
+	list.actions;
 export default list.reducer;

@@ -8,6 +8,7 @@ import { openModal } from '../store/modules/modal';
 
 type CardHeaderProps = {
 	isList: [];
+	_onClick?(): any;
 };
 
 const CardHeader = (props: CardHeaderProps) => {
@@ -21,9 +22,6 @@ const CardHeader = (props: CardHeaderProps) => {
 		const result = newList.sort(() => Math.random() - 0.5);
 		dispatch(setList(result));
 	};
-	const changeStudyList = () => {
-		dispatch(changeStudy());
-	};
 
 	return (
 		<>
@@ -31,7 +29,7 @@ const CardHeader = (props: CardHeaderProps) => {
 				<SectionLeft>
 					<Text
 						size='14px'
-						callback={changeStudyList}
+						callback={props._onClick}
 						color={_isStudy ? '#292C34' : '#DBDCDC'}
 					>
 						학습중
@@ -39,7 +37,7 @@ const CardHeader = (props: CardHeaderProps) => {
 					<Text
 						size='14px'
 						margin='0 13px'
-						callback={changeStudyList}
+						callback={props._onClick}
 						color={_isStudy ? '#DBDCDC' : '#292C34'}
 					>
 						암기완료
