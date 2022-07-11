@@ -20,6 +20,9 @@ const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
 	const _isList = useSelector((state: RootState) => state.list.list);
+	const _isComplete = useSelector(
+		(state: RootState) => state.list.completeList
+	);
 	const [isAllShow, setIsAllShow] = useState(true);
 
 	useEffect(() => {
@@ -41,8 +44,8 @@ const App = () => {
 			<GlobalStyle />
 			<HeaderContainer>
 				<Header />
-				<SubHeader />
-				<CardHeader />
+				<SubHeader isList={_isList} isComplete={_isComplete} />
+				<CardHeader isList={_isList} />
 			</HeaderContainer>
 			<CardList />
 			<FloatButton _onClick={showAllCard} _isOpen={isAllShow} />

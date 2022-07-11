@@ -43,10 +43,12 @@ const Card = (props: CardProps) => {
 						</Grid>
 					</SectionWrap>
 				</SectionUpper>
-				<Grid padding='20px' is_flex>
-					<WordLeft>{isConvert ? trans : word}</WordLeft>
+				<Grid is_flex>
+					<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
 					<WordRight onClick={openClick}>
-						{isOpen && <TransSection>{isConvert ? word : trans}</TransSection>}
+						{isOpen && (
+							<TransSection isConvert>{isConvert ? word : trans}</TransSection>
+						)}
 					</WordRight>
 				</Grid>
 			</CardBox>
@@ -73,18 +75,20 @@ const SectionUpper = styled.div`
 `;
 
 const SectionWrap = styled.div`
-	padding: 12px 0 0 12px;
+	padding: 8px 0 0 8px;
 	display: flex;
 	justify-content: flex-start;
 `;
 
-const WordLeft = styled.div`
+const WordLeft = styled.div<{ isConvert: boolean }>`
 	width: 100%;
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	padding: 23px;
+	padding-top: 40px;
 	align-items: center;
-	//text-align: center;
+	font-size: 13px;
 `;
 
 const WordRight = styled.div`
@@ -92,11 +96,11 @@ const WordRight = styled.div`
 	height: 100%;
 `;
 
-const TransSection = styled.div`
+const TransSection = styled.div<{ isConvert: boolean }>`
 	width: 100%;
 	height: 100%;
 	padding: 0 10px;
-	font-size: 13px;
+	font-size: 8px;
 	display: flex;
 	justify-content: center;
 	align-items: center;

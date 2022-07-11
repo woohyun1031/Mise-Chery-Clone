@@ -5,11 +5,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 type initialStateType = {
 	list: any;
+	completeList: any;
 	isConvert: boolean;
 };
 
 const initialState: initialStateType = {
 	list: [],
+	completeList: [],
 	isConvert: false,
 };
 

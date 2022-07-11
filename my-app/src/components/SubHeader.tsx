@@ -1,17 +1,21 @@
 import styled from 'styled-components';
 import { Grid, Text } from '../elements/index';
 
-const SubHeader = () => {
+type SubHeaderProps = {
+	isList: [];
+	isComplete: [];
+};
+const SubHeader = (props: SubHeaderProps) => {
 	return (
 		<>
 			<Grid width='100%' height='78px' padding='0 16px'>
 				<Grid is_flex>
 					<SectionLeft>
 						<Text color='#5c5f66' size='12px'>
-							0/70단어
+							{props.isComplete.length}/{props.isList.length}단어
 						</Text>
 						<Text color='#B5B7BA' size='12px'>
-							58%
+							{(props.isComplete.length / props.isList.length) * 100}%
 						</Text>
 					</SectionLeft>
 					<SectionRight>
@@ -28,7 +32,9 @@ const SubHeader = () => {
 export default SubHeader;
 
 const SectionLeft = styled.div`
-	width: 164px;
+	width: 30%;
+	max-width: 164px;
+	min-width: 110px;
 	height: 34px;
 
 	line-height: 34px;
@@ -42,7 +48,9 @@ const SectionLeft = styled.div`
 	border-radius: 6px;
 `;
 const SectionRight = styled.div`
-	width: 164px;
+	width: 30%;
+	max-width: 164px;
+	min-width: 110px;
 	height: 34px;
 
 	line-height: 34px;

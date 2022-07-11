@@ -2,14 +2,23 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
 import { AppDispatch } from '../store/configStore';
-import { getList } from '../store/modules/list';
+import { getList, setList } from '../store/modules/list';
 import { openModal } from '../store/modules/modal';
 
-const CardHeader = () => {
+type CardHeaderProps = {
+	isList: [];
+};
+
+const CardHeader = (props: CardHeaderProps) => {
 	const dispatch = useDispatch<AppDispatch>();
 
 	const modalOpen = () => {
 		dispatch(openModal('sortModal'));
+	};
+	const shuffleList = () => {
+		const newList = [...props.isList];
+		const result = newList.sort(() => Math.random() - 0.5);
+		dispatch(setList(result));
 	};
 
 	return (
@@ -23,7 +32,11 @@ const CardHeader = () => {
 				</SectionLeft>
 				<SectionRight>
 					<Icon src='images/sort_icon.svg' callback={modalOpen} />
-					<Icon src='images/mix_icon.svg' margin='0 0 0 17px' />
+					<Icon
+						src='images/mix_icon.svg'
+						margin='0 0 0 17px'
+						callback={shuffleList}
+					/>
 				</SectionRight>
 			</Grid>
 		</>
