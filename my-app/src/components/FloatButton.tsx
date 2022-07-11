@@ -19,15 +19,22 @@ export default FloatButton;
 const FloatButtonBox = styled.button`
 	width: 128px;
 	height: 45px;
+
 	text-align: center;
 	vertical-align: middle;
+
+	font-size: 14px;
+	color: #ffffff;
+	background-color: #6f87ff;
+
 	border: none;
 	border-radius: 10px;
-	background-color: #6f87ff;
-	color: #ffffff;
+
 	box-sizing: border-box;
-	font-size: 14px;
+
 	position: fixed;
 	bottom: 66px;
 	right: 32px;
+
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 `;
