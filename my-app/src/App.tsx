@@ -20,15 +20,19 @@ const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
 	const _isList = useSelector((state: RootState) => state.list.list);
+	const [isAllShow, setIsAllShow] = useState(true);
 
 	useEffect(() => {
 		dispatch(getList());
 	}, []);
 
 	const showAllCard = () => {
+		const isOpenCheck = isAllShow;
 		const newList = _isList.map((l: CardType) => {
-			return { ...l, isOpen: !l.isOpen };
+			return { ...l, isOpen: isAllShow };
 		});
+
+		setIsAllShow(!isOpenCheck);
 		dispatch(setList(newList));
 	};
 
@@ -42,7 +46,7 @@ const App = () => {
 			</HeaderContainer>
 			<CardList />
 			{_isOpen && <Modal />}
-			<FloatButton _onClick={showAllCard} />
+			<FloatButton _onClick={showAllCard} _isOpen={isAllShow} />
 		</>
 	);
 };

@@ -3,12 +3,13 @@ import styled from 'styled-components';
 
 type FloatButtonProps = {
 	_onClick?(): any;
+	_isOpen: boolean;
 };
 
 const FloatButton = (props: FloatButtonProps) => {
 	return (
 		<FloatButtonBox onClick={props._onClick}>
-			{/* {props._isOpen ? '전체 가리기' : '전체 보이기'} */}
+			{props._isOpen ? '전체 보이기' : '전체 가리기'}
 		</FloatButtonBox>
 	);
 };
