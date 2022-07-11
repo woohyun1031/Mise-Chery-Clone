@@ -1,25 +1,37 @@
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import styled from 'styled-components';
 
 import GlobalStyle from './styles/GlobalStyle';
 
 import Header from './components/Header';
 import SubHeader from './components/SubHeader';
-import CardList from './components/CardList';
+import CardList, { CardType } from './components/CardList';
 import CardHeader from './components/CardHeader';
 import Modal from './components/Modal';
+import FloatButton from './components/FloatButton';
+
 import { AppDispatch, RootState } from './store/configStore';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { getList } from './store/modules/list';
+import { getList, setList } from './store/modules/list';
 
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
+	const _isList = useSelector((state: RootState) => state.list.list);
 
 	useEffect(() => {
 		dispatch(getList());
 	}, []);
+
+	const showAllCard = () => {
+		const newList = _isList.map((l: CardType) => {
+			return { ...l, isOpen: !l.isOpen };
+		});
+		dispatch(setList(newList));
+	};
+
 	return (
 		<>
 			<GlobalStyle />
@@ -30,6 +42,7 @@ const App = () => {
 			</HeaderContainer>
 			<CardList />
 			{_isOpen && <Modal />}
+			<FloatButton _onClick={showAllCard} />
 		</>
 	);
 };
