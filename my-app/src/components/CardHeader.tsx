@@ -25,7 +25,7 @@ const CardHeader = (props: CardHeaderProps) => {
 
 	return (
 		<>
-			<Grid width='100%' height='57px' padding='0 16px' is_flex border>
+			<Grid width='100%' height='57px' padding='0 16px' is_flex>
 				<SectionLeft>
 					<Text
 						size='14px'

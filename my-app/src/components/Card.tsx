@@ -1,4 +1,4 @@
-import { MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -6,37 +6,34 @@ import { Grid, Text, Icon } from '../elements/index';
 import { RootState } from '../store/configStore';
 import { addComplte, addStudy, setList } from '../store/modules/list';
 import { CardType } from './CardList';
-import { useDrag } from 'react-use-gesture';
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 type CardProps = CardType & {
 	isConvert: boolean;
 };
 
 const Card = (props: CardProps) => {
-	const { word, trans, pos, x_count, o_count, isConvert } = props;
+	const { word, trans, pos, x_count, o_count, isOpen, isConvert } = props;
+
 	const dispatch = useDispatch();
 	const isList = useSelector((state: RootState) => state.list);
+	const isNewList = isList.isStudy ? isList.list : isList.completeList;
+	const nodeRef = useRef(null);
 
-	const [isPosition, setIsPosition] = useState(0);
-	const [isOpen, setIsOpen] = useState(false);
+	const [isPos, setIsPos] = useState(0);
+	const [isStartX, setIsStartX] = useState(0);
 
-	const bindPosition = useDrag(
-		({ down, movement }) => {
-			if (down) {
-				setIsPosition(movement[0]);
-			} else {
-				const isToggled = movement[0] > -261 / 2;
-				setIsPosition(isToggled ? 0 : -261);
-			}
-		},
-		{
-			initial: () => [0, 0],
-		}
-	);
+	useEffect(() => {
+		console.log(isPos);
+	}, [isPos]);
 
-	const openClick = (e: MouseEvent<HTMLDivElement>) => {
-		e.preventDefault();
-		setIsOpen((prev) => !prev);
+	const openClick = () => {
+		console.log('open');
+		const newList = isNewList.map((l: CardType) => {
+			if (l.word == word) return { ...l, isOpen: !isOpen };
+			return l;
+		});
+		dispatch(setList(newList));
 	};
 
 	const addXCount = () => {
@@ -81,37 +78,57 @@ const Card = (props: CardProps) => {
 		if (studyCard) dispatch(addStudy({ studyCard, newList }));
 	};
 
+	const handleStart = (data: DraggableData) => {
+		console.log('start');
+		setIsStartX(data.x);
+	};
+	const handleEnd = (e: DraggableEvent, data: DraggableData) => {
+		console.log('end');
+		const mx = isStartX + data.x;
+		const isToggled = mx > -261 / 2;
+		const ii = isToggled ? mx : -261;
+		setIsPos(ii);
+	};
 	return (
 		<>
 			<CardWrap>
-				<CardBox isPosition={isPosition} {...bindPosition()}>
-					<SectionTop>
-						<SectionWrap>
-							<Grid is_flex width='45px'>
-								<Icon src='images/X_count_icon.svg' size='10px' />
-								<Text size='10px' color='#F25555'>
-									{x_count}
-								</Text>
-								<Icon src='images/O_count_icon.svg' size='11px' />
-								<Text size='10px' color='#177AFF'>
-									{o_count}
-								</Text>
-							</Grid>
-						</SectionWrap>
-					</SectionTop>
+				<Draggable
+					cancel={'.WordRight'}
+					ref={nodeRef}
+					axis={'x'}
+					onStart={(e, data) => isOpen && handleStart(data)}
+					onStop={(e, data) => handleEnd(e, data)}
+					bounds={{ left: -261, right: 0 }}
+				>
+					<CardBox is_Pos={isPos}>
+						<SectionTop>
+							<SectionWrap>
+								<Grid is_flex width='45px'>
+									<Icon src='images/X_count_icon.svg' size='10px' />
+									<Text size='10px' color='#F25555'>
+										{x_count}
+									</Text>
+									<Icon src='images/O_count_icon.svg' size='11px' />
+									<Text size='10px' color='#177AFF'>
+										{o_count}
+									</Text>
+								</Grid>
+							</SectionWrap>
+						</SectionTop>
 
-					<SectionMain>
-						<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
-						{isOpen && <Line />}
-						<WordRight className={WordRight} onClick={openClick}>
-							{isOpen && (
-								<TransSection isConvert>
-									{isConvert ? word : trans}
-								</TransSection>
-							)}
-						</WordRight>
-					</SectionMain>
-				</CardBox>
+						<SectionMain>
+							<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
+							{isOpen && <Line />}
+							<WordRight onClick={openClick}>
+								{isOpen && (
+									<TransSection isConvert>
+										{isConvert ? word : trans}
+									</TransSection>
+								)}
+							</WordRight>
+						</SectionMain>
+					</CardBox>
+				</Draggable>
 
 				<HideComponent>
 					{isList.isStudy ? (
@@ -148,13 +165,12 @@ const CardWrap = styled.div`
 	position: relative;
 `;
 
-const CardBox = styled.div<{ isPosition: number }>`
+const CardBox = styled.div<{ is_Pos: number }>`
 	width: 100%;
 	height: 100%;
 	position: relative;
 	z-index: 90;
 	transition: 0.3s;
-	right: ${({ isPosition }) => -isPosition}px;
 	border-radius: 6px;
 `;
 
