@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import { Grid, Text, Icon } from '../elements/index';
 import { RootState } from '../store/configStore';
 import { addComplte, addStudy, setList } from '../store/modules/list';
 import { CardType } from './CardList';
+import Draggable from 'react-draggable';
 
 type CardProps = CardType & {
 	isConvert: boolean;
@@ -13,13 +14,12 @@ type CardProps = CardType & {
 
 const Card = (props: CardProps) => {
 	const { word, trans, pos, x_count, o_count, isOpen, isConvert } = props;
-
 	const dispatch = useDispatch();
-
+	const [isSlide, setIsSlide] = useState(false);
 	const isList = useSelector((state: RootState) => state.list);
 	const isNewList = isList.isStudy ? isList.list : isList.completeList;
 
-	const openClick = () => {
+	const openClick = (e: MouseEvent<HTMLDivElement>) => {
 		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, isOpen: !isOpen };
 			return l;
@@ -69,37 +69,43 @@ const Card = (props: CardProps) => {
 		if (studyCard) dispatch(addStudy({ studyCard, newList }));
 	};
 
+	const onSlideBox = () => {
+		setIsSlide((prev) => !prev);
+	};
+
 	return (
 		<>
 			<CardWrap>
-				<CardBox>
-					<SectionTop>
-						<SectionWrap>
-							<Grid is_flex width='45px'>
-								<Icon src='images/X_count_icon.svg' size='10px' />
-								<Text size='10px' color='#F25555'>
-									{x_count}
-								</Text>
-								<Icon src='images/O_count_icon.svg' size='11px' />
-								<Text size='10px' color='#177AFF'>
-									{o_count}
-								</Text>
-							</Grid>
-						</SectionWrap>
-					</SectionTop>
+				<Draggable axis='x'>
+					<CardBox isSlide={isSlide}>
+						<SectionTop>
+							<SectionWrap>
+								<Grid is_flex width='45px'>
+									<Icon src='images/X_count_icon.svg' size='10px' />
+									<Text size='10px' color='#F25555'>
+										{x_count}
+									</Text>
+									<Icon src='images/O_count_icon.svg' size='11px' />
+									<Text size='10px' color='#177AFF'>
+										{o_count}
+									</Text>
+								</Grid>
+							</SectionWrap>
+						</SectionTop>
 
-					<Grid is_flex zIndex=''>
-						<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
-						{isOpen && <Line />}
-						<WordRight onClick={openClick}>
-							{isOpen && (
-								<TransSection isConvert>
-									{isConvert ? word : trans}
-								</TransSection>
-							)}
-						</WordRight>
-					</Grid>
-				</CardBox>
+						<Grid is_flex>
+							<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
+							{isOpen && <Line />}
+							<WordRight className={WordRight} onClick={openClick}>
+								{isOpen && (
+									<TransSection isConvert>
+										{isConvert ? word : trans}
+									</TransSection>
+								)}
+							</WordRight>
+						</Grid>
+					</CardBox>
+				</Draggable>
 
 				<HideComponent>
 					{isList.isStudy ? (
@@ -134,16 +140,19 @@ const CardWrap = styled.div`
 	height: 80px;
 	margin-bottom: 14px;
 	position: relative;
-	border: 1px solid #e6ebff;
 	border-radius: 6px;
+	border: 1px solid #e6ebff;
 `;
 
-const CardBox = styled.div`
+const CardBox = styled.div<{ isSlide: boolean }>`
 	width: 100%;
 	height: 100%;
-	right: 261px;
 	position: relative;
 	z-index: 90;
+	//	transition: 0.3s;
+
+	/* ${({ isSlide }) =>
+		isSlide ? 'transform: translateX(-261px);' : ''}//right: 261px; */
 `;
 
 const SectionTop = styled.div`
@@ -177,6 +186,7 @@ const Line = styled.div`
 const WordRight = styled.div`
 	width: 100%;
 	height: 100%;
+	border-radius: 6px;
 `;
 
 const TransSection = styled.div<{ isConvert: boolean }>`
