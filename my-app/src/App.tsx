@@ -14,7 +14,6 @@ import { changeStudy, getList, setList } from './store/modules/list';
 
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
 	const _isList = useSelector((state: RootState) => state.list);
 	const _isNewList = _isList.isStudy ? _isList.list : _isList.completeList;
 	const [isAllShow, setIsAllShow] = useState(false);
@@ -46,7 +45,7 @@ const App = () => {
 			</HeaderContainer>
 			<CardList />
 			<FloatButton _onClick={showAllCard} _isOpen={!isAllShow} />
-			{_isOpen && <Modal />}
+			<Modal />
 		</>
 	);
 };

@@ -1,4 +1,10 @@
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import React, {
+	MouseEvent,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -13,21 +19,20 @@ type CardProps = CardType & {
 };
 
 const Card = (props: CardProps) => {
-	const { word, trans, pos, x_count, o_count, isOpen, isConvert } = props;
+	console.log('rerender');
+	const { word, trans, x_count, o_count, isOpen, isConvert } = props;
 
 	const dispatch = useDispatch();
-	const isList = useSelector((state: RootState) => state.list);
-	const isNewList = isList.isStudy ? isList.list : isList.completeList;
+	const isCompleteList = useSelector(
+		(state: RootState) => state.list.completeList
+	);
+	const isList = useSelector((state: RootState) => state.list.list);
+	const isStudy = useSelector((state: RootState) => state.list.isStudy);
 	const nodeRef = useRef(null);
-
 	const [isPos, setIsPos] = useState(true);
-	const [isStartX, setIsStartX] = useState(0);
+	const isNewList = isStudy ? isList : isCompleteList;
 
-	useEffect(() => {
-		console.log(isPos);
-	}, [isPos]);
-
-	const openClick = (e: MouseEvent<HTMLDivElement>) => {
+	const openClick = () => {
 		console.log('open');
 		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, isOpen: !isOpen };
@@ -37,7 +42,7 @@ const Card = (props: CardProps) => {
 	};
 
 	const addXCount = () => {
-		const newList = isList.list.map((l: CardType) => {
+		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, x_count: x_count + 1 };
 			return l;
 		});
@@ -45,16 +50,17 @@ const Card = (props: CardProps) => {
 	};
 
 	const addOCount = () => {
-		const newList = isList.list.map((l: CardType) => {
+		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, o_count: o_count + 1 };
 			return l;
 		});
 		dispatch(setList(newList));
+		setIsPos(true);
 	};
 
 	const addCompleteList = () => {
 		let completeCard;
-		const newList = isList.list.filter((l: CardType) => {
+		const newList = isNewList.filter((l: CardType) => {
 			if (l.word !== word) {
 				return l;
 			} else {
@@ -67,7 +73,7 @@ const Card = (props: CardProps) => {
 
 	const returnStudyList = () => {
 		let studyCard;
-		const newList = isList.completeList.filter((l: CardType) => {
+		const newList = isNewList.filter((l: CardType) => {
 			if (l.word !== word) {
 				return l;
 			} else {
@@ -80,24 +86,21 @@ const Card = (props: CardProps) => {
 
 	const handleStart = (e: DraggableEvent, data: DraggableData) => {
 		console.log('start');
-		setIsStartX(data.x);
 	};
 	const handleEnd = (e: DraggableEvent, data: DraggableData) => {
 		console.log('end');
-		const mx = isStartX + data.x;
-		const isToggled = mx > -261 / 2;
+		const isToggled = data.lastX > -261 / 2; //true는 0으로 false는 -261로
 		setIsPos(isToggled);
 	};
 	return (
 		<>
 			<CardWrap>
 				<Draggable
-					cancel={'.WordRight'}
 					nodeRef={nodeRef}
 					axis={'x'}
 					onStart={(e, data) => isOpen && handleStart(e, data)}
 					onStop={(e, data) => handleEnd(e, data)}
-					bounds={{ left: isList.isStudy ? -261 : -87, right: 0 }}
+					bounds={{ left: isStudy ? -261 : -87, right: 0 }}
 				>
 					<CardBox ref={nodeRef} is_Pos={isPos}>
 						<SectionTop>
@@ -118,7 +121,7 @@ const Card = (props: CardProps) => {
 						<SectionMain>
 							<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
 							{isOpen && <Line />}
-							<WordRight onClick={(e) => openClick(e)}>
+							<WordRight onClick={openClick}>
 								{isOpen && (
 									<TransSection isConvert>
 										{isConvert ? word : trans}
@@ -130,7 +133,7 @@ const Card = (props: CardProps) => {
 				</Draggable>
 
 				<HideComponent>
-					{isList.isStudy ? (
+					{isStudy ? (
 						<Grid is_flex>
 							<Item bg={'#F47777'} onClick={addXCount}>
 								X
@@ -155,7 +158,7 @@ const Card = (props: CardProps) => {
 	);
 };
 
-export default Card;
+export default React.memo(Card);
 
 const CardWrap = styled.div`
 	width: 100%;
@@ -172,6 +175,10 @@ const CardBox = styled.div<{ is_Pos: boolean }>`
 	z-index: 90;
 	transition: 0.3s;
 	border-radius: 6px;
+	/* ${({ is_Pos }) =>
+		is_Pos
+			? '-webkit-transform: translateX(0px) !important;'
+			: '-webkit-transform: translateX(-261px) !important;'}; */
 `;
 
 const SectionTop = styled.div`
@@ -233,7 +240,6 @@ const TransSection = styled.div<{ isConvert: boolean }>`
 	justify-content: center;
 	align-items: center;
 	border-right: 6px solid #e6ebff;
-	//border-left: 1px solid #e6ebff;
 `;
 
 const HideComponent = styled.div`

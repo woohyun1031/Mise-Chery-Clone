@@ -9,6 +9,7 @@ import ConvertModal from './ConvertModal';
 const Modal = () => {
 	const dispatch = useDispatch();
 	const isType = useSelector((state: RootState) => state.modal.type);
+	const _isOpen = useSelector((state: RootState) => state.modal.isOpen);
 	let title;
 	let contents;
 	switch (isType) {
@@ -27,6 +28,7 @@ const Modal = () => {
 		dispatch(closeModal());
 	};
 
+	if (!_isOpen) return <></>;
 	return (
 		<>
 			<BackGround onClick={Modalclose} />

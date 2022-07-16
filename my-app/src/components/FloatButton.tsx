@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 type FloatButtonProps = {
-	_onClick?(): any;
+	_onClick?(): void;
 	_isOpen: boolean;
 };
 

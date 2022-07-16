@@ -9,6 +9,7 @@ type initialStateType = {
 	completeList: any;
 	isConvert: boolean;
 	isStudy: boolean;
+	isOpen: boolean;
 };
 
 const initialState: initialStateType = {
@@ -16,6 +17,7 @@ const initialState: initialStateType = {
 	completeList: [],
 	isConvert: false,
 	isStudy: true,
+	isOpen: false,
 };
 
 export const getList = createAsyncThunk('list/getList', async (_, thunkAPI) => {
@@ -32,7 +34,7 @@ export const getList = createAsyncThunk('list/getList', async (_, thunkAPI) => {
 		const PostDate = await axios(getPostConfig);
 		const defaultList = [...PostDate.data.body.list];
 		const newList = defaultList.map((prop) => {
-			return { ...prop, isOpen: false };
+			return { ...prop };
 		});
 		thunkAPI.dispatch(setList(newList));
 	} catch (error) {
@@ -69,9 +71,18 @@ export const list = createSlice({
 		changeStudy: (state) => {
 			state.isStudy = !state.isStudy;
 		},
+		isAllOpen: (state) => {
+			state.isOpen = !state.isOpen;
+		},
 	},
 });
 
-export const { setList, convertWord, addComplte, addStudy, changeStudy } =
-	list.actions;
+export const {
+	setList,
+	convertWord,
+	addComplte,
+	addStudy,
+	changeStudy,
+	isAllOpen,
+} = list.actions;
 export default list.reducer;

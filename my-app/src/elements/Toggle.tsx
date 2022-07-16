@@ -38,6 +38,5 @@ const Circle = styled.div<{ toggle: boolean }>`
 	position: absolute;
 	left: 5%;
 	transition: all 0.5s ease-in-out;
-	${({ toggle }) =>
-		toggle && ` transform: translate(17px, 0); transition: 0.5s;`}
+	${({ toggle }) => toggle && `transform: translateX(17px);`}
 `;
