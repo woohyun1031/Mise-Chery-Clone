@@ -1,10 +1,4 @@
-import React, {
-	MouseEvent,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -19,7 +13,6 @@ type CardProps = CardType & {
 };
 
 const Card = (props: CardProps) => {
-	console.log('rerender');
 	const { word, trans, x_count, o_count, isOpen, isConvert } = props;
 
 	const dispatch = useDispatch();
@@ -33,7 +26,6 @@ const Card = (props: CardProps) => {
 	const isNewList = isStudy ? isList : isCompleteList;
 
 	const openClick = () => {
-		console.log('open');
 		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, isOpen: !isOpen };
 			return l;
@@ -84,11 +76,7 @@ const Card = (props: CardProps) => {
 		if (studyCard) dispatch(addStudy({ studyCard, newList }));
 	};
 
-	const handleStart = (e: DraggableEvent, data: DraggableData) => {
-		console.log('start');
-	};
 	const handleEnd = (e: DraggableEvent, data: DraggableData) => {
-		console.log('end');
 		const isToggled = data.lastX > -261 / 2; //true는 0으로 false는 -261로
 		setIsPos(isToggled);
 	};
@@ -98,7 +86,7 @@ const Card = (props: CardProps) => {
 				<Draggable
 					nodeRef={nodeRef}
 					axis={'x'}
-					onStart={(e, data) => isOpen && handleStart(e, data)}
+					onStart={() => isOpen && console.log('onStart')}
 					onStop={(e, data) => handleEnd(e, data)}
 					bounds={{ left: isStudy ? -261 : -87, right: 0 }}
 				>

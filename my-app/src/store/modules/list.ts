@@ -5,8 +5,8 @@ import { CardType } from '../../components/CardList';
 //initialState
 
 type initialStateType = {
-	list: any;
-	completeList: any;
+	list: CardType[];
+	completeList: CardType[];
 	isConvert: boolean;
 	isStudy: boolean;
 	isOpen: boolean;
@@ -71,8 +71,8 @@ export const list = createSlice({
 		changeStudy: (state) => {
 			state.isStudy = !state.isStudy;
 		},
-		isAllOpen: (state) => {
-			state.isOpen = !state.isOpen;
+		isAllOpen: (state, action) => {
+			state.isOpen = action.payload;
 		},
 	},
 });

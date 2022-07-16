@@ -1,14 +1,27 @@
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { RootState } from '../store/configStore';
+import { isAllOpen, setList } from '../store/modules/list';
+import { CardType } from './CardList';
 
-type FloatButtonProps = {
-	_onClick?(): void;
-	_isOpen: boolean;
-};
+const FloatButton = () => {
+	const dispatch = useDispatch();
+	const _isList = useSelector((state: RootState) => state.list);
+	const _isNewList = _isList.isStudy ? _isList.list : _isList.completeList;
+	const _isOpen = useSelector((state: RootState) => state.list.isOpen);
 
-const FloatButton = (props: FloatButtonProps) => {
+	const showAllCard = () => {
+		const newList = _isNewList.map((l: CardType) => {
+			return { ...l, isOpen: !_isOpen };
+		});
+		dispatch(isAllOpen(!_isOpen));
+		dispatch(setList(newList));
+	};
+
 	return (
-		<FloatButtonBox onClick={props._onClick}>
-			{props._isOpen ? '전체 보이기' : '전체 가리기'}
+		<FloatButtonBox onClick={showAllCard}>
+			{_isOpen ? '전체 가리기' : '전체 보이기'}
 		</FloatButtonBox>
 	);
 };

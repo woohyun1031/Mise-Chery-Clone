@@ -1,23 +1,24 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text } from '../elements/index';
+import { RootState } from '../store/configStore';
 
-type SubHeaderProps = {
-	isList: [];
-	isComplete: [];
-};
-const SubHeader = (props: SubHeaderProps) => {
-	const { isList, isComplete } = props;
-	const totalList = isList.length + isComplete.length;
+const SubHeader = () => {
+	const _isList = useSelector((state: RootState) => state.list.list);
+	const _isCompleteList = useSelector(
+		(state: RootState) => state.list.completeList
+	);
+	const totalList = _isList.length + _isCompleteList.length;
 	return (
 		<>
 			<Grid width='100%' height='70px' padding='0 16px' zIndex='9'>
 				<Grid is_flex>
 					<SectionLeft>
 						<Text color='#5c5f66' size='12px'>
-							{isComplete.length}/{totalList}단어
+							{_isCompleteList.length}/{totalList}단어
 						</Text>
 						<Text color='#B5B7BA' size='12px'>
-							{(isComplete.length / totalList) * 100}%
+							{(_isCompleteList.length / totalList) * 100}%
 						</Text>
 					</SectionLeft>
 					<SectionRight>
