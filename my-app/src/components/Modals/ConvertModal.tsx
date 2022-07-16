@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Grid, Text, Toggle } from '../elements/index';
-import { RootState } from '../store/configStore';
-import { convertWord } from '../store/modules/list';
+import { Grid, Text, Toggle } from '../../elements/index';
+import { RootState } from '../../store/configStore';
+import { convertWord } from '../../store/modules/list';
 
 const ConvertModal = () => {
 	const dispatch = useDispatch();

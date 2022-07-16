@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Grid, Text, Icon } from '../elements/index';
-import { AppDispatch, RootState } from '../store/configStore';
-import { changeStudy, isAllOpen, setList } from '../store/modules/list';
-import { openModal } from '../store/modules/modal';
+import { Grid, Text, Icon } from '../../elements/index';
+import { AppDispatch, RootState } from '../../store/configStore';
+import { changeStudy, isAllOpen, setList } from '../../store/modules/list';
+import { openModal } from '../../store/modules/modal';
 
 const CardHeader = () => {
 	const dispatch = useDispatch<AppDispatch>();

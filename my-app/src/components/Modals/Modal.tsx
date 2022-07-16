@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { RootState } from '../store/configStore';
-import { closeModal } from '../store/modules/modal';
+import { RootState } from '../../store/configStore';
+import { closeModal } from '../../store/modules/modal';
 import SortModal from './SortModal';
 import ConvertModal from './ConvertModal';
 

@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { Text, Icon } from '../elements/index';
-import { openModal } from '../store/modules/modal';
+import { Text, Icon } from '../../elements/index';
+import { openModal } from '../../store/modules/modal';
 import styled from 'styled-components';
 
 const Header = () => {

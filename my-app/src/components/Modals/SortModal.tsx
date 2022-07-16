@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Grid } from '../elements/index';
-import { RootState } from '../store/configStore';
-import { setList } from '../store/modules/list';
-import { closeModal } from '../store/modules/modal';
-import { CardType } from './CardList';
+import { Grid } from '../../elements/index';
+import { RootState } from '../../store/configStore';
+import { setList } from '../../store/modules/list';
+import { closeModal } from '../../store/modules/modal';
+import { CardType } from '../CardList';
 
 const SortModal = () => {
 	const dispatch = useDispatch();

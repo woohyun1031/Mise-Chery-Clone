@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Grid, Text } from '../elements/index';
-import { RootState } from '../store/configStore';
+import { Grid, Text } from '../../elements/index';
+import { RootState } from '../../store/configStore';
 
 const SubHeader = () => {
 	const _isList = useSelector((state: RootState) => state.list.list);

@@ -1,16 +1,15 @@
-import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
-import Header from './components/Header';
-import SubHeader from './components/SubHeader';
-import CardList, { CardType } from './components/CardList';
-import CardHeader from './components/CardHeader';
-import Modal from './components/Modal';
+import Header from './components/Headers/Header';
+import SubHeader from './components/Headers/SubHeader';
+import CardList from './components/CardList';
+import CardHeader from './components/Headers/CardHeader';
+import Modal from './components/Modals/Modal';
 import FloatButton from './components/FloatButton';
-import { AppDispatch, RootState } from './store/configStore';
-import { changeStudy, getList, isAllOpen, setList } from './store/modules/list';
+import { AppDispatch } from './store/configStore';
+import { getList } from './store/modules/list';
 
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
