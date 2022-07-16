@@ -10,7 +10,7 @@ const SubHeader = (props: SubHeaderProps) => {
 	const totalList = isList.length + isComplete.length;
 	return (
 		<>
-			<Grid width='100%' height='78px' padding='0 16px'>
+			<Grid width='100%' height='70px' padding='0 16px' zIndex='9'>
 				<Grid is_flex>
 					<SectionLeft>
 						<Text color='#5c5f66' size='12px'>

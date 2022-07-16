@@ -11,6 +11,10 @@ const GlobalStyle = createGlobalStyle`
   body {    
     background-color: #ffff;    
     padding-top: 180px;
+    &::-webkit-scrollbar {
+       display: none;
+    }
+    
   }
   li {
     list-style: none;

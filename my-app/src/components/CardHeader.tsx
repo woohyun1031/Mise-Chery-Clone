@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
 import { AppDispatch, RootState } from '../store/configStore';
-import { changeStudy, getList, setList } from '../store/modules/list';
+import { setList } from '../store/modules/list';
 import { openModal } from '../store/modules/modal';
 
 type CardHeaderProps = {

@@ -23,12 +23,12 @@ const SortModal = () => {
 				break;
 			case 'sortX':
 				result = arrayForSort.sort(
-					(a: CardType, b: CardType) => a.x_count - b.x_count
+					(a: CardType, b: CardType) => b.x_count - a.x_count
 				);
 				break;
 			case 'sortO':
 				result = arrayForSort.sort(
-					(a: CardType, b: CardType) => a.o_count - b.o_count
+					(a: CardType, b: CardType) => b.o_count - a.o_count
 				);
 				break;
 			case 'sortlessStudy':

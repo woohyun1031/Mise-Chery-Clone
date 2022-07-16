@@ -20,14 +20,14 @@ const Card = (props: CardProps) => {
 	const isNewList = isList.isStudy ? isList.list : isList.completeList;
 	const nodeRef = useRef(null);
 
-	const [isPos, setIsPos] = useState(0);
+	const [isPos, setIsPos] = useState(true);
 	const [isStartX, setIsStartX] = useState(0);
 
 	useEffect(() => {
 		console.log(isPos);
 	}, [isPos]);
 
-	const openClick = () => {
+	const openClick = (e: MouseEvent<HTMLDivElement>) => {
 		console.log('open');
 		const newList = isNewList.map((l: CardType) => {
 			if (l.word == word) return { ...l, isOpen: !isOpen };
@@ -78,7 +78,7 @@ const Card = (props: CardProps) => {
 		if (studyCard) dispatch(addStudy({ studyCard, newList }));
 	};
 
-	const handleStart = (data: DraggableData) => {
+	const handleStart = (e: DraggableEvent, data: DraggableData) => {
 		console.log('start');
 		setIsStartX(data.x);
 	};
@@ -86,21 +86,20 @@ const Card = (props: CardProps) => {
 		console.log('end');
 		const mx = isStartX + data.x;
 		const isToggled = mx > -261 / 2;
-		const ii = isToggled ? mx : -261;
-		setIsPos(ii);
+		setIsPos(isToggled);
 	};
 	return (
 		<>
 			<CardWrap>
 				<Draggable
 					cancel={'.WordRight'}
-					ref={nodeRef}
+					nodeRef={nodeRef}
 					axis={'x'}
-					onStart={(e, data) => isOpen && handleStart(data)}
+					onStart={(e, data) => isOpen && handleStart(e, data)}
 					onStop={(e, data) => handleEnd(e, data)}
-					bounds={{ left: -261, right: 0 }}
+					bounds={{ left: isList.isStudy ? -261 : -87, right: 0 }}
 				>
-					<CardBox is_Pos={isPos}>
+					<CardBox ref={nodeRef} is_Pos={isPos}>
 						<SectionTop>
 							<SectionWrap>
 								<Grid is_flex width='45px'>
@@ -119,7 +118,7 @@ const Card = (props: CardProps) => {
 						<SectionMain>
 							<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
 							{isOpen && <Line />}
-							<WordRight onClick={openClick}>
+							<WordRight onClick={(e) => openClick(e)}>
 								{isOpen && (
 									<TransSection isConvert>
 										{isConvert ? word : trans}
@@ -160,15 +159,16 @@ export default Card;
 
 const CardWrap = styled.div`
 	width: 100%;
+	min-width: 270px;
 	height: 80px;
 	margin-bottom: 14px;
 	position: relative;
 `;
 
-const CardBox = styled.div<{ is_Pos: number }>`
+const CardBox = styled.div<{ is_Pos: boolean }>`
 	width: 100%;
 	height: 100%;
-	position: relative;
+	position: absolute;
 	z-index: 90;
 	transition: 0.3s;
 	border-radius: 6px;

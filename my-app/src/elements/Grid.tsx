@@ -7,7 +7,6 @@ type GridProps = {
 	margin?: string;
 	bg?: string;
 	is_flex?: boolean;
-	is_shadow?: boolean;
 	is_position?: string;
 	children?: any;
 	zIndex?: string;
@@ -17,7 +16,6 @@ type GridProps = {
 const Grid = (props: GridProps) => {
 	const {
 		is_flex,
-		is_shadow,
 		width,
 		height,
 		padding,
@@ -29,7 +27,6 @@ const Grid = (props: GridProps) => {
 	} = props;
 	const styles = {
 		is_flex,
-		is_shadow,
 		width,
 		height,
 		padding,
@@ -70,6 +67,5 @@ const GridBox = styled.div<{
 	${({ is_flex }) => (is_flex ? 'justify-content: space-between' : '')};
 
 	${({ border }) => (border ? 'border: 0.1px solid gray' : '')};
-	${({ is_shadow }) => (is_shadow ? 'box-shadow: 0 3px 6px black' : '')};
 	${({ zIndex }) => (zIndex ? `z-index:${zIndex}` : '')};
 `;

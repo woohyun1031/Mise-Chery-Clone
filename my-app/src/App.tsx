@@ -57,5 +57,6 @@ const HeaderContainer = styled.div`
 	position: fixed;
 	top: 0;
 	width: 100%;
+	background-color: #ffffff;
 	z-index: 100;
 `;
