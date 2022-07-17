@@ -5,17 +5,19 @@ type IconProps = {
 	size?: string;
 	color?: string;
 	margin?: string;
+	nocursor?: boolean;
 	callback?(event?: any): any;
 };
 
 const Icon = (props: IconProps) => {
-	const { size, color, src, margin, callback } = props;
+	const { size, color, src, margin, nocursor, callback } = props;
 
 	const styles = {
 		size,
 		color,
 		src,
 		margin,
+		nocursor,
 	};
 
 	return (
@@ -32,6 +34,7 @@ const IconWrap = styled.div<{
 	size?: string;
 	color?: string;
 	margin?: string;
+	nocursor?: boolean;
 }>`
 	width: ${({ size }) => (size ? size : '20px')};
 	height: ${({ size }) => (size ? size : '20px')};
@@ -41,4 +44,5 @@ const IconWrap = styled.div<{
 	background-size: contain;
 	background-position: center center;
 	background-repeat: no-repeat;
+	${({ nocursor }) => (!nocursor ? 'cursor: pointer' : '')};
 `;

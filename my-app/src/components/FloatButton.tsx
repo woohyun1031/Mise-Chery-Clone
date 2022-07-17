@@ -8,21 +8,14 @@ import { CardType } from './CardList';
 
 const FloatButton = () => {
 	const dispatch = useDispatch();
-	const _isList = useSelector((state: RootState) => state.list);
-	const _isNewList = _isList.isStudy ? _isList.list : _isList.completeList;
-	const [isOpen, setIsOpen] = useState(false);
+	const _isOpen = useSelector((state: RootState) => state.list.isOpen);
 	const showAllCard = () => {
-		// const newList = _isNewList.map((l: CardType) => {
-		// 	return { ...l, isOpen: !isAllOpen };
-		// });
-		setIsOpen(!isOpen);
-		dispatch(isAllOpen(!isOpen));
-		//dispatch(setList(newList));
+		dispatch(isAllOpen(!_isOpen));
 	};
 
 	return (
 		<FloatButtonBox onClick={showAllCard}>
-			{isOpen ? '전체 가리기' : '전체 보이기'}
+			{_isOpen ? '전체 가리기' : '전체 보이기'}
 		</FloatButtonBox>
 	);
 };

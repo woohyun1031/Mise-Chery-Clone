@@ -31,15 +31,19 @@ const CardHeader = () => {
 				<SectionLeft>
 					<Text
 						size='14px'
+						iscursor
 						callback={changeStudyList}
+						isBorder={_isStudy}
 						color={_isStudy ? '#292C34' : '#DBDCDC'}
 					>
 						학습중
 					</Text>
 					<Text
 						size='14px'
+						iscursor
 						margin='0 13px'
 						callback={changeStudyList}
+						isBorder={!_isStudy}
 						color={_isStudy ? '#DBDCDC' : '#292C34'}
 					>
 						암기완료

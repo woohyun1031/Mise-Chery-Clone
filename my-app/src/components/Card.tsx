@@ -1,9 +1,9 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Grid, Text, Icon } from '../elements/index';
-import { RootState } from '../store/configStore';
+import { AppDispatch, RootState } from '../store/configStore';
 import { addComplte, addStudy, setList } from '../store/modules/list';
 import { CardType } from './CardList';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
@@ -17,7 +17,7 @@ const Card = (props: CardProps) => {
 	console.log('card render');
 	const { word, trans, x_count, o_count, isOpen, isConvert } = props;
 
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const isCompleteList = useSelector(
 		(state: RootState) => state.list.completeList
 	);
@@ -101,11 +101,11 @@ const Card = (props: CardProps) => {
 						<SectionTop>
 							<SectionWrap>
 								<Grid is_flex width='45px'>
-									<Icon src='images/X_count_icon.svg' size='10px' />
+									<Icon src='images/X_count_icon.svg' size='10px' nocursor />
 									<Text size='10px' color='#F25555'>
 										{x_count}
 									</Text>
-									<Icon src='images/O_count_icon.svg' size='11px' />
+									<Icon src='images/O_count_icon.svg' size='11px' nocursor />
 									<Text size='10px' color='#177AFF'>
 										{o_count}
 									</Text>
@@ -213,7 +213,7 @@ const WordLeft = styled.div<{ isConvert: boolean }>`
 
 const Line = styled.div`
 	height: 80%;
-	border: 1px solid #e6ebff;
+	border: 0.5px solid #e6ebff;
 `;
 
 const WordRight = styled.div`
