@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -10,9 +10,11 @@ import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 type CardProps = CardType & {
 	isConvert: boolean;
+	isOpen?: boolean;
 };
 
 const Card = (props: CardProps) => {
+	console.log('card render');
 	const { word, trans, x_count, o_count, isOpen, isConvert } = props;
 
 	const dispatch = useDispatch();
@@ -21,16 +23,17 @@ const Card = (props: CardProps) => {
 	);
 	const isList = useSelector((state: RootState) => state.list.list);
 	const isStudy = useSelector((state: RootState) => state.list.isStudy);
+	const [isItemOpen, setIsItemOpen] = useState(false);
 	const nodeRef = useRef(null);
-	const [isPos, setIsPos] = useState(true);
+
 	const isNewList = isStudy ? isList : isCompleteList;
 
+	useEffect(() => {
+		if (isItemOpen !== isOpen) setIsItemOpen(isOpen);
+	}, [isOpen]);
+
 	const openClick = () => {
-		const newList = isNewList.map((l: CardType) => {
-			if (l.word == word) return { ...l, isOpen: !isOpen };
-			return l;
-		});
-		dispatch(setList(newList));
+		setIsItemOpen((prev) => !prev);
 	};
 
 	const addXCount = () => {
@@ -47,7 +50,6 @@ const Card = (props: CardProps) => {
 			return l;
 		});
 		dispatch(setList(newList));
-		setIsPos(true);
 	};
 
 	const addCompleteList = () => {
@@ -76,21 +78,26 @@ const Card = (props: CardProps) => {
 		if (studyCard) dispatch(addStudy({ studyCard, newList }));
 	};
 
-	const handleEnd = (e: DraggableEvent, data: DraggableData) => {
-		const isToggled = data.lastX > -261 / 2; //true는 0으로 false는 -261로
-		setIsPos(isToggled);
+	const handleStart = (e: DraggableEvent, data: DraggableData) => {
+		e.preventDefault();
 	};
+
+	const handleEnd = (e: DraggableEvent, data: DraggableData) => {
+		e.preventDefault();
+		const isToggled = data.lastX > -261 / 2; //true는 0으로 false는 -261로
+	};
+
 	return (
 		<>
 			<CardWrap>
 				<Draggable
 					nodeRef={nodeRef}
 					axis={'x'}
-					onStart={() => isOpen && console.log('onStart')}
+					onStart={(e, data) => isItemOpen && handleStart(e, data)}
 					onStop={(e, data) => handleEnd(e, data)}
 					bounds={{ left: isStudy ? -261 : -87, right: 0 }}
 				>
-					<CardBox ref={nodeRef} is_Pos={isPos}>
+					<CardBox ref={nodeRef}>
 						<SectionTop>
 							<SectionWrap>
 								<Grid is_flex width='45px'>
@@ -108,9 +115,9 @@ const Card = (props: CardProps) => {
 
 						<SectionMain>
 							<WordLeft isConvert>{isConvert ? trans : word}</WordLeft>
-							{isOpen && <Line />}
+							{isItemOpen && <Line />}
 							<WordRight onClick={openClick}>
-								{isOpen && (
+								{isItemOpen && (
 									<TransSection isConvert>
 										{isConvert ? word : trans}
 									</TransSection>
@@ -156,17 +163,13 @@ const CardWrap = styled.div`
 	position: relative;
 `;
 
-const CardBox = styled.div<{ is_Pos: boolean }>`
+const CardBox = styled.div`
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	z-index: 90;
 	transition: 0.3s;
 	border-radius: 6px;
-	/* ${({ is_Pos }) =>
-		is_Pos
-			? '-webkit-transform: translateX(0px) !important;'
-			: '-webkit-transform: translateX(-261px) !important;'}; */
 `;
 
 const SectionTop = styled.div`
