@@ -15,14 +15,18 @@ export type CardType = {
 const CardList = () => {
 	const isList = useSelector((state: RootState) => state.list);
 	const isNewList = isList.isStudy ? isList.list : isList.completeList;
-
 	return (
 		<>
 			<CardListWrap>
 				{isNewList &&
 					isNewList.map((card: CardType) => {
 						return (
-							<Card key={card.word} {...card} isConvert={isList.isConvert} />
+							<Card
+								key={card.word}
+								{...card}
+								isConvert={isList.isConvert}
+								isOpen={isList.isOpen}
+							/>
 						);
 					})}
 			</CardListWrap>
