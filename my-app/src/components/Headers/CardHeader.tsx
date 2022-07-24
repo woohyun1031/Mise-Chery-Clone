@@ -65,7 +65,7 @@ const CardHeader = () => {
 export default CardHeader;
 
 const SectionLeft = styled.div`
-	width: 120px;
+	width: 130px;
 	height: 26px;
 
 	line-height: 26px;

@@ -220,6 +220,7 @@ const WordRight = styled.div`
 	width: 100%;
 	height: 100%;
 	border-radius: 6px;
+	cursor: pointer;
 `;
 
 const TransSection = styled.div<{ isConvert: boolean }>`
@@ -251,4 +252,5 @@ const Item = styled.div<{ bg: string; isBorder?: boolean }>`
 	color: #ffff;
 	background-color: ${({ bg }) => bg};
 	${({ isBorder }) => isBorder && 'border-radius: 0 6px 6px 0'};
+	cursor: pointer;
 `;
