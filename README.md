@@ -4,10 +4,6 @@
 
 &nbsp;
 
-### Index
-
-- [기능](#기능)
-
 ---
 <image src='https://velog.velcdn.com/images/woo1031/post/e110e5da-ac6b-43e4-bb51-84493e3e0210/image.PNG' width='300px'/>
 
