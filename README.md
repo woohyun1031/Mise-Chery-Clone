@@ -1,4 +1,4 @@
-# Mise_assignment_01
+# Mise Chery App Clone
 
 > 제공된 XD파일에서 화면과 기능명세를 참고하여 React를 활용해 구현하기
 
